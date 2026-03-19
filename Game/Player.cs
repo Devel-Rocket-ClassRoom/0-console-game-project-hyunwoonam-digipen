@@ -8,6 +8,8 @@ public class Player : GameObject
     public int PosX { get; set; }
     public int PosY { get; set; }
 
+    public bool Alive { get; private set; } = true;
+
     public Player(Scene scene, int[,] map) : base(scene)
     {
 

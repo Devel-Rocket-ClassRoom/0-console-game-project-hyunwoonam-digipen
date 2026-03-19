@@ -34,13 +34,13 @@ public class MazeGame : GameApp
     private void ChangeToTitle()
     {
         var title = new TitleScene();
-        //title.StartRequestd += ChangeToPlay;
+        title.StartRequestd += ChangeToPlay;
         _scenes.ChangeScene(title);
     }
-    //private void ChangeToPlay()
-    //{
-    //    var play = new PlayScene();
-    //    play.PlayAgainRequested += ChangeToTitle;
-    //    _scenes.ChangeScene(play);
-    //}
+    private void ChangeToPlay()
+    {
+        var play = new PlayScene();
+        play.PlayAgainRequested += ChangeToTitle;
+        _scenes.ChangeScene(play);
+    }
 }
