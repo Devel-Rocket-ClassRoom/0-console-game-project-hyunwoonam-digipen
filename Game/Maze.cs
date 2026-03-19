@@ -13,6 +13,7 @@ public class MazeGenerator
     private int[,] map;
     private Random rand = new Random();
 
+
     MazeGenerator(int w, int h)
     {
         width = w % 2 == 0 ? w + 1 : w;
@@ -37,13 +38,7 @@ public class MazeGenerator
 
         int[] currRow = new int[cellWidth];
 
-        //첫 셀 행의 고유 집합 번호 부여
-        for (int i = 0; i < cellWidth; i++)
-        {
-            currRow[i] = i+1;
-        }
-
-        int nextSetId = cellWidth;
+        int nextSetId = 1;
 
         for (int y = 0; y < cellHeight; y++)
         {
@@ -59,6 +54,13 @@ public class MazeGenerator
         for (int y = 0; y < cellHeight; y++)
         {
             int currCol = y * 2 + 1;
+
+            //첫 셀 행의 고유 집합 번호 부여
+            for (int i = 0; i < cellWidth; i++)
+            {
+                currRow[i] = nextSetId++;
+            }
+            
 
             //수평 연결
             for (int x = 0; x < cellWidth - 1; x++)
@@ -86,7 +88,8 @@ public class MazeGenerator
             }
 
             //수직 연결
-            if(y < cellHeight -1)
+
+            if (y < cellHeight -1)
             {
 
             }

@@ -1,1 +1,1 @@
-return;
+new MazeGame().Run();
