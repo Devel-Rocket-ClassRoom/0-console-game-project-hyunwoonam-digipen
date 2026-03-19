@@ -43,6 +43,11 @@ public class PlayScene : Scene
 
         player = new Player(this, grid);
         coin = new Coin(this);
+
+        coin.Spawn(grid);
+
+        AddGameObject(player);
+        AddGameObject(coin);
     }
 
     public override void Unload()
@@ -77,12 +82,19 @@ public class PlayScene : Scene
             return;
         }
 
-        //if (snake.HeadPosition == food.Position)
-        //{
-        //    snake.Grow();
-        //    score += 10;
-        //    food.Spawn(snake.Body, Wall.Left, Wall.Right, Wall.Top, Wall.Bottom);
-        //}
+        if (player.PosX == coin.Position.X && player.PosY == coin.Position.Y)
+        {
+            coinCount++;
+
+            if (coinCount >= 3)
+            {
+
+            }
+            else
+            {
+                coin.Spawn(grid);
+            }
+        }
     }
 
     public override void Draw(ScreenBuffer buffer)

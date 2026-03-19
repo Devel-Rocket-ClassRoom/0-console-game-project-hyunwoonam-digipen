@@ -15,7 +15,7 @@ public class Coin : GameObject
 
     public override void Draw(ScreenBuffer buffer)
     {
-        
+        buffer.SetCell(_position.X + 40, _position.Y + 5, 'C', ConsoleColor.Yellow);
     }
 
     public override void Update(float deltaTime)
@@ -23,16 +23,21 @@ public class Coin : GameObject
         
     }
 
-    public void Spawn(LinkedList<(int X, int Y)> excludedCells,
-        int left, int right, int top, int bottom)
+    public void Spawn(int[,] grid)
     {
-        do
+        int rows = grid.GetLength(0);
+        int cols = grid.GetLength(1);
+
+        while (true)
         {
-            _position.X = _random.Next(left, right + 1);
-            _position.Y = _random.Next(top, bottom + 1);
+            int x = _random.Next(0, cols);
+            int y = _random.Next(0, rows);
+
+            if (grid[y, x] == 0)
+            {
+                _position = (x, y);
+                break;
+            }
         }
-        while (excludedCells.Contains(_position));
-
-
     }
 }
