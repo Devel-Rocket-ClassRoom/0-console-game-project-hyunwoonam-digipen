@@ -8,6 +8,7 @@ public class PlayScene : Scene
 {
     private Player player;
     private Coin coin;
+    private Escape escape;
 
     private int coinCount;
     private float timeCount;
@@ -43,11 +44,14 @@ public class PlayScene : Scene
 
         player = new Player(this, grid);
         coin = new Coin(this);
+        escape = new Escape(this);
 
         coin.Spawn(grid);
+        escape.Spawn(grid);
 
         AddGameObject(player);
         AddGameObject(coin);
+        AddGameObject(escape);
     }
 
     public override void Unload()
@@ -86,13 +90,20 @@ public class PlayScene : Scene
         {
             coinCount++;
 
-            if (coinCount >= 3)
-            {
+            escape.CoinCount = coinCount;
 
-            }
-            else
+            if (coinCount < 3)
             {
                 coin.Spawn(grid);
+            }
+        }
+
+        if (player.PosX == escape.Position.X && player.PosY == escape.Position.Y)
+        {
+            if (coinCount >= 3)
+            {
+                isGameOver = true;
+                return;
             }
         }
     }
