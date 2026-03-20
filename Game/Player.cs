@@ -21,7 +21,7 @@ public class Player : GameObject
 
     public override void Draw(ScreenBuffer buffer)
     {
-        buffer.SetCell(PosX + 40, PosY + 5, 'P', ConsoleColor.Cyan);
+        buffer.SetCell(PosX + 40, PosY + 0, 'P', ConsoleColor.Cyan);
     }
 
     public override void Update(float deltaTime)

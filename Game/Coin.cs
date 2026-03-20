@@ -15,7 +15,7 @@ public class Coin : GameObject
 
     public override void Draw(ScreenBuffer buffer)
     {
-        buffer.SetCell(_position.X + 40, _position.Y + 5, 'C', ConsoleColor.Yellow);
+        buffer.SetCell(_position.X + 40, _position.Y + 0, 'C', ConsoleColor.Yellow);
     }
 
     public override void Update(float deltaTime)

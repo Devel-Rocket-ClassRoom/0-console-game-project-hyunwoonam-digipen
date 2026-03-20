@@ -20,11 +20,11 @@ public class Escape : GameObject
     {
         if (CoinCount >= 3)
         {
-            buffer.SetCell(_position.X + 40, _position.Y + 5, 'E', ConsoleColor.Red);
+            buffer.SetCell(_position.X + 40, _position.Y + 0, 'E', ConsoleColor.Red);
         }
         else
         {
-            buffer.SetCell(_position.X + 40, _position.Y + 5, 'E', ConsoleColor.Yellow);
+            buffer.SetCell(_position.X + 40, _position.Y + 0, 'E', ConsoleColor.Yellow);
         }
     }
 
