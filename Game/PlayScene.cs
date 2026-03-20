@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading;
 using System.Xml.Linq;
 
 public class PlayScene : Scene
@@ -9,6 +10,7 @@ public class PlayScene : Scene
     private Player player;
     private Coin coin;
     private Escape escape;
+    private Monster monster;
 
     private int coinCount;
     private float timeCount;
@@ -33,13 +35,18 @@ public class PlayScene : Scene
 
 
         player = new Player(this, grid);
+        monster = new Monster(this, grid, player);
+
         coin = new Coin(this);
         escape = new Escape(this);
 
+        monster.Spawn();
         coin.Spawn(grid);
         escape.Spawn(grid);
 
         AddGameObject(player);
+        AddGameObject(monster);
+
         AddGameObject(coin);
         AddGameObject(escape);
     }
@@ -95,6 +102,12 @@ public class PlayScene : Scene
                 isGameOver = true;
                 return;
             }
+        }
+
+        if (player.PosX == monster.PosX && player.PosY == monster.PosY)
+        {
+            isGameOver = true;
+            return;
         }
     }
 

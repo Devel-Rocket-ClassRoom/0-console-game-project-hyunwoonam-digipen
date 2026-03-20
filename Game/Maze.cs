@@ -114,24 +114,25 @@ public class MazeGenerator
 
     private bool IsDeadEnd(int x, int y)
     {
-        int paths = 0;
+        int canMove = 0;
+
         if (map[y - 1, x] == 0)
         {
-            paths++;
+            canMove++;
         }
         if (map[y + 1, x] == 0)
         {
-            paths++;
+            canMove++;
         }
         if (map[y, x - 1] == 0)
         {
-            paths++;
+            canMove++;
         }
         if (map[y, x + 1] == 0)
         {
-            paths++;
+            canMove++;
         }
-        return paths == 1;
+        return canMove == 1;
     }
 
     private void RemoveRandomWall(int x, int y)
