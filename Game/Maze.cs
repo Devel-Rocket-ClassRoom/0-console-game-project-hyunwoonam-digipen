@@ -52,47 +52,35 @@ public class MazeGenerator
     {
         Stack<(int x, int y)> stack = new Stack<(int x, int y)>();
 
+        GenerateRecursive(startX, startY, stack);
+    }
 
-        map[startY, startX] = 0;
-        stack.Push((startX, startY));
+    private void GenerateRecursive(int x, int y, Stack<(int x, int y)> stack)
+    {
+        map[y, x] = 0;
+        stack.Push((x, y));
 
-        while (stack.Count > 0)
+        int[] directions = { 0, 1, 2, 3 };
+        directions = directions.OrderBy(d => rand.Next()).ToArray();
+
+        foreach (int dir in directions)
         {
-            var current = stack.Peek();
-            int x = current.x;
-            int y = current.y;
+            int nx = x + directionX[dir];
+            int ny = y + directionY[dir];
 
-            int[] directions = { 0, 1, 2, 3 };
-            directions = directions.OrderBy(d => rand.Next()).ToArray();
-
-            bool moved = false; 
-
-            foreach (int dir in directions)
+            if (nx > 0 && nx < mapWidth - 1 && ny > 0 && ny < mapHeight - 1
+                && map[ny, nx] == 1)
             {
-                int nx = x + directionX[dir];
-                int ny = y + directionY[dir];
+                int wallX = x + (directionX[dir] / 2);
+                int wallY = y + (directionY[dir] / 2);
 
-                if (nx > 0 && nx < mapWidth - 1 && ny > 0 && ny < mapHeight - 1 
-                    && map[ny, nx] == 1)
-                {
-                    int wallX = x + (directionX[dir] / 2);
-                    int wallY = y + (directionY[dir] / 2);
+                map[wallY, wallX] = 0;
 
-                    map[wallY, wallX] = 0;
-
-                    map[ny, nx] = 0;
-
-                    stack.Push((nx, ny));
-                    moved = true;
-                    break; 
-                }
-            }
-
-            if (moved == false)
-            {
-                stack.Pop();
+                GenerateRecursive(nx, ny, stack);
             }
         }
+
+        stack.Pop();
     }
 
     public void GenerateBraidMaze(double probability = 1.0)

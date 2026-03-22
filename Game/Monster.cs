@@ -12,11 +12,18 @@ public class Monster : GameObject
     private int[,] _grid;
     private Player _targetPlayer;
 
+    private PathFinding _pathFinding;
+
+    private float _moveTimer = 0f;
+    private float _moveInterval = 0.1f; // 0.1초마다 한 칸 이동
+
     public Monster(Scene scene, int[,] grid, Player player) : base(scene)
     {
         Name = "Monster";
         _grid = grid;
         _targetPlayer = player;
+
+        _pathFinding = new PathFinding(_grid);
     }
 
     public void Spawn()
@@ -49,14 +56,33 @@ public class Monster : GameObject
         PosX = spawnX;
         PosY = spawnY;
     }
+
     public override void Update(float deltaTime)
     {
-        
+        _moveTimer += deltaTime;
+
+        // 쿨타임이 찼을 때만 길찾기 및 이동 수행
+        if (_moveTimer >= _moveInterval)
+        {
+            _moveTimer = 0f;
+
+            Point start = new Point(PosX, PosY);
+            Point end = new Point(_targetPlayer.PosX, _targetPlayer.PosY);
+
+            // PathFinding 클래스의 GetPath 호출
+            List<Point> path = _pathFinding.GetPath(start, end);
+
+            // 경로가 존재하면 다음 칸으로 이동
+            if (path != null && path.Count > 0)
+            {
+                PosX = path[0].X;
+                PosY = path[0].Y;
+            }
+        }
     }
 
     public override void Draw(ScreenBuffer buffer)
     {
-        buffer.SetCell(PosX + 40, PosY, 'M', ConsoleColor.Magenta);
+        buffer.SetCell(PosX + 35, PosY, 'M', ConsoleColor.Magenta);
     }
 }
-

@@ -8,6 +8,14 @@ public class Coin : GameObject
     Random _random = new Random();
     private (int X, int Y) _position;
     public (int X, int Y) Position { get { return _position; } }
+
+    private bool isGetall = false;
+
+    public bool isGetAll
+    {
+        get { return isGetall; } 
+        set { isGetall = value; }
+    }
     public Coin(Scene scene) : base(scene)
     {
         Name = "Coin";
@@ -15,7 +23,11 @@ public class Coin : GameObject
 
     public override void Draw(ScreenBuffer buffer)
     {
-        buffer.SetCell(_position.X + 40, _position.Y + 0, 'C', ConsoleColor.Yellow);
+        if (isGetall == false)
+        {
+            buffer.SetCell(_position.X + 35, _position.Y + 0, 'C', ConsoleColor.Yellow);
+        }
+        
     }
 
     public override void Update(float deltaTime)

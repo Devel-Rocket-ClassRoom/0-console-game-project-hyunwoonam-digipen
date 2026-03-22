@@ -13,8 +13,10 @@ public class PlayScene : Scene
     private Monster monster;
 
     private int coinCount;
-    private float timeCount;
+    private float timeCount = default;
+    private float timeLimit = 120f;
     private bool isGameOver;
+    private bool isWin;
 
     private int[,] grid;
 
@@ -31,8 +33,6 @@ public class PlayScene : Scene
     {
         coinCount = 0;
         isGameOver = false;
-
-
 
         player = new Player(this, grid);
         monster = new Monster(this, grid, player);
@@ -58,7 +58,7 @@ public class PlayScene : Scene
 
     public override void Update(float deltaTime)
     {
-        if (isGameOver)
+        if (isGameOver || isWin)
         {
             if (Input.IsKeyDown(ConsoleKey.Enter))
             {
@@ -69,7 +69,7 @@ public class PlayScene : Scene
 
         UpdateGameObjects(deltaTime);
 
-        if (timeCount > 30f)
+        if (timeCount > timeLimit)
         {
             isGameOver = true;
             return;
@@ -95,11 +95,16 @@ public class PlayScene : Scene
             }
         }
 
+        if (coinCount == 3)
+        {
+            coin.isGetAll = true;
+        }
+
         if (player.PosX == escape.Position.X && player.PosY == escape.Position.Y)
         {
             if (coinCount >= 3)
             {
-                isGameOver = true;
+                isWin = true;
                 return;
             }
         }
@@ -113,8 +118,10 @@ public class PlayScene : Scene
 
     public override void Draw(ScreenBuffer buffer)
     {
-        int startX = 40;
+        int startX = 35;
         int startY = 0;
+
+        int remainingTime = (int)Math.Max(0, timeLimit - timeCount);
 
         for (int y = 0; y < grid.GetLength(0); y++)
         {
@@ -133,11 +140,18 @@ public class PlayScene : Scene
 
         DrawGameObjects(buffer);
 
+        buffer.WriteText(1, 17, "Need Coins: 3, Get Coins: " + coinCount, ConsoleColor.DarkGray);
+        buffer.WriteText(1, 18, "Time Limit: " + remainingTime + "seconds", ConsoleColor.DarkGray);
         buffer.WriteText(1, 19, "Arrow Keys: Move", ConsoleColor.DarkGray);
 
         if (isGameOver)
         {
             buffer.WriteTextCentered(8, "GAME OVER", ConsoleColor.Red);
+            buffer.WriteTextCentered(12, "Press ENTER to Retry", ConsoleColor.White);
+        }
+        if (isWin)
+        {
+            buffer.WriteTextCentered(8, "GAME Win", ConsoleColor.Red);
             buffer.WriteTextCentered(12, "Press ENTER to Retry", ConsoleColor.White);
         }
     }
