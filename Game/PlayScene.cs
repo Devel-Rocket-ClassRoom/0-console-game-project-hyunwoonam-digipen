@@ -20,12 +20,15 @@ public class PlayScene : Scene
 
     private int[,] grid;
 
+    private (int x, int y) startP;
+
     public event GameAction PlayAgainRequested;
 
     public PlayScene()
     {
         MazeGenerator maze = new MazeGenerator(25, 10);
         maze.GenerateMaze();
+        startP = (maze.startX, maze.startY);
         grid = maze.map;
     }
 
@@ -34,7 +37,7 @@ public class PlayScene : Scene
         coinCount = 0;
         isGameOver = false;
 
-        player = new Player(this, grid);
+        player = new Player(this, grid, startP);
         monster = new Monster(this, grid, player);
 
         coin = new Coin(this);

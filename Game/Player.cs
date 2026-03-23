@@ -11,11 +11,11 @@ public class Player : GameObject
     public bool Alive { get; private set; } = true;
     private int[,] _grid;
 
-    public Player(Scene scene, int[,] map) : base(scene)
+    public Player(Scene scene, int[,] map, (int x, int y) start) : base(scene)
     {
         _grid = map;
-        PosX = 1;
-        PosY = 1;
+        PosX = start.x;
+        PosY = start.y;
         Name = "Player";
     }
 

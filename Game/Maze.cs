@@ -11,6 +11,9 @@ public class MazeGenerator
     private int mapWidth;
     private int mapHeight;
 
+    public int startX;
+    public int startY;
+
     public int[,] map;
     private Random rand = new Random();
 
@@ -41,8 +44,8 @@ public class MazeGenerator
 
     public void GenerateMaze()
     {
-        int startX = rand.Next(roomRows) * 2 + 1;
-        int startY = rand.Next(roomCols) * 2 + 1;
+        startX = rand.Next(roomRows) * 2 + 1;
+        startY = rand.Next(roomCols) * 2 + 1;
 
         GenerateRecursive(startX, startY);
         GenerateBraidMaze();
